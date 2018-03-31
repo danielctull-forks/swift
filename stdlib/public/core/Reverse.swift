@@ -295,7 +295,7 @@ extension LazyCollectionProtocol
   /// - Complexity: O(1)
   @inlinable
   public func reversed() -> LazyCollection<ReversedCollection<Elements>> {
-    return ReversedCollection(_base: elements).lazy
+    return elements.reversed().lazy
   }
 }
 
