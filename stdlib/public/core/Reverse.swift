@@ -285,6 +285,32 @@ extension BidirectionalCollection {
   }
 }
 
+/// A `Collection` that contains the same elements as this one,
+/// in the reversed order.
+public protocol ReversedCollectionProtocol: BidirectionalCollection {
+  associatedtype Elements: Collection
+  where Elements.Iterator.Element == Iterator.Element
+
+  var elements: Elements { get }
+}
+
+extension ReversedCollection: ReversedCollectionProtocol {
+
+  public var elements: Base {
+    return _base
+  }
+}
+
+extension ReversedCollectionProtocol {
+  /// Reversing a reversed collection returns the original collection.
+  ///
+  /// - Complexity: O(1)
+  @inlinable
+  public func reversed() -> Elements {
+    return elements
+  }
+}
+
 extension LazyCollectionProtocol
   where
   Self: BidirectionalCollection,
@@ -296,6 +322,20 @@ extension LazyCollectionProtocol
   @inlinable
   public func reversed() -> LazyCollection<ReversedCollection<Elements>> {
     return elements.reversed().lazy
+  }
+}
+
+extension LazyCollectionProtocol
+  where
+  Self: BidirectionalCollection,
+  Elements: ReversedCollectionProtocol {
+
+  /// Reversing a lazy reversed collection returns a lazy representation of the original collection.
+  ///
+  /// - Complexity: O(1)
+  @inlinable
+  public func reversed() -> LazyCollection<Elements.Elements> {
+    return elements.elements.lazy
   }
 }
 
