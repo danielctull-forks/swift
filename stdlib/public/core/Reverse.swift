@@ -253,6 +253,19 @@ extension ReversedCollection: BidirectionalCollection {
 
 extension ReversedCollection: RandomAccessCollection where Base: RandomAccessCollection { }
 
+extension ReversedCollection {
+  /// This is optimization to return identity of doubly reversed collection
+  /// For example [1,2].reversed().reversed() => [1,2]
+  ///
+  /// Returns a view presenting the elements of the collection in reverse
+  /// order.
+  ///
+  /// - Complexity: O(1)
+  public func reversed() -> Base {
+    return _base
+  }
+}
+
 extension BidirectionalCollection {
   /// Returns a view presenting the elements of the collection in reverse
   /// order.
