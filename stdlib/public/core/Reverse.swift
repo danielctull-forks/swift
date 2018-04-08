@@ -38,9 +38,9 @@ extension MutableCollection where Self: BidirectionalCollection {
 /// A collection that presents the elements of its base collection
 /// in reverse order.
 ///
-/// - See also: `ReversedCollection` below.
+/// - See also: `ReversedCollection`
 public protocol ReversedCollectionProtocol: BidirectionalCollection {
-  /// A `Collection` that can contain the same elements as this one,
+  /// A `Collection` that contains the same elements as this one,
   /// just in reverse order.
   associatedtype Elements: Collection where Elements.Iterator.Element == Iterator.Element
   var elements: Elements { get }
@@ -60,8 +60,6 @@ public protocol ReversedCollectionProtocol: BidirectionalCollection {
 /// * `c.reversed()` does not create new storage
 /// * `c.reversed().map(f)` maps eagerly and returns a new array
 /// * `c.lazy.reversed().map(f)` maps lazily and returns a `LazyMapCollection`
-///
-/// - See also: `ReversedRandomAccessCollection`
 @_fixed_layout
 public struct ReversedCollection<Base: BidirectionalCollection> {
   public let _base: Base
@@ -274,8 +272,10 @@ extension ReversedCollection: BidirectionalCollection {
 extension ReversedCollection: RandomAccessCollection where Base: RandomAccessCollection { }
 
 extension ReversedCollection {
-  /// This is optimization to return original collection of doubly reversed collection
-  /// For example [1,2].reversed().reversed() => [1,2]
+  // This is optimization to return original collection of doubly reversed collection
+  // For example [1,2].reversed().reversed() => [1,2]
+
+  /// Returns the elements of the original collection (reversal of reversal)
   public func reversed() -> Base {
     return _base
   }
@@ -314,8 +314,11 @@ extension BidirectionalCollection {
 }
 
 extension LazyCollection where Base: ReversedCollectionProtocol {
-  /// This is optimization to return original collection of doubly reversed lazy collection
-  /// For example [1,2].lazy.reversed().reversed() => [1,2].lazy
+  // This is optimization to return original collection of doubly reversed lazy collection
+  // For example [1,2].lazy.reversed().reversed() => [1,2].lazy
+
+
+  /// Returns the elements of the original lazy collection (reversal of reversal)
   public func reversed() -> LazyCollection<Elements.Elements> {
     return elements.elements.lazy
   }
