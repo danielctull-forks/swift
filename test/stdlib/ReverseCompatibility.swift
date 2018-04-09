@@ -6,10 +6,10 @@
 
 import StdlibUnittest
 
-#if swift(>=4.1)
-let swiftVersion = ">=4.1"
+#if swift(>=4.2)
+let swiftVersion = ">=4.2"
 #else
-let swiftVersion = "<4.1"
+let swiftVersion = "<4.2"
 #endif
 
 let tests = TestSuite("ReverseCompatibility")
@@ -17,7 +17,7 @@ let tests = TestSuite("ReverseCompatibility")
 tests.test("Double reverse type/Collection/\(swiftVersion)") {
   func reverse<C : BidirectionalCollection>(_ xs: C) {
     var result = xs.reversed().reversed()
-#if swift(>=4.1)
+#if swift(>=4.2)
     expectType(C.self, &result)
 #else
     expectType(ReversedCollection<ReversedCollection<C>>.self, &result)
@@ -36,7 +36,7 @@ tests.test("Double reverse type/Collection/\(swiftVersion)") {
 tests.test("Double reverse type/LazyCollection/\(swiftVersion)") {
   func reverse<C : BidirectionalCollection>(_ xs: C) {
     var result = xs.lazy.reversed().reversed()
-#if swift(>=4.1)
+#if swift(>=4.2)
     expectType(LazyCollection<C.Elements>.self, &result)
 #else
     expectType(
