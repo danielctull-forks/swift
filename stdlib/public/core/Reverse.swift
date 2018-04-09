@@ -38,17 +38,6 @@ extension MutableCollection where Self: BidirectionalCollection {
 /// A collection that presents the elements of its base collection
 /// in reverse order.
 ///
-/// - See also: `ReversedCollection`
-public protocol ReversedCollectionProtocol: BidirectionalCollection {
-  /// A `Collection` that contains the same elements as this one,
-  /// just in reverse order.
-  associatedtype Elements: Collection where Elements.Iterator.Element == Iterator.Element
-  var elements: Elements { get }
-}
-
-/// A collection that presents the elements of its base collection
-/// in reverse order.
-///
 /// - Note: This type is the result of `x.reversed()` where `x` is a
 ///   collection having bidirectional indices.
 ///
@@ -92,15 +81,6 @@ extension ReversedCollection {
       self._position = _base.endIndex
     }
   }
-}
-
-extension ReversedCollection: ReversedCollectionProtocol {
-  /// The type of the underlying collection.
-  public typealias Elements = Base
-
-  /// The underlying collection.
-  @inlinable
-  public var elements: Elements { return _base }
 }
 
 extension ReversedCollection.Iterator: IteratorProtocol, Sequence {
@@ -312,17 +292,6 @@ extension BidirectionalCollection {
   @inlinable
   public func reversed() -> ReversedCollection<Self> {
     return ReversedCollection(_base: self)
-  }
-}
-
-extension LazyCollection where Base: ReversedCollectionProtocol {
-  // This is optimization to return original collection of doubly reversed lazy collection
-  // For example [1,2].lazy.reversed().reversed() => [1,2].lazy
-
-
-  /// Returns the elements of the original lazy collection (reversal of reversal)
-  public func reversed() -> LazyCollection<Elements.Elements> {
-    return elements.elements.lazy
   }
 }
 
