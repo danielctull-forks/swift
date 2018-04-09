@@ -276,6 +276,8 @@ extension ReversedCollection {
   // For example [1,2].reversed().reversed() => [1,2]
 
   /// Returns the elements of the original collection (reversal of reversal)
+  @inlinable
+  @available(swift, introduced: 4.2)
   public func reversed() -> Base {
     return _base
   }
