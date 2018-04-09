@@ -306,6 +306,7 @@ extension ReversedCollectionProtocol {
   ///
   /// - Complexity: O(1)
   @inlinable
+  @available(swift, introduced: 4.2)
   public func reversed() -> Elements {
     return elements
   }
@@ -334,6 +335,7 @@ extension LazyCollectionProtocol
   ///
   /// - Complexity: O(1)
   @inlinable
+  @available(swift, introduced: 4.2)
   public func reversed() -> LazyCollection<Elements.Elements> {
     return elements.elements.lazy
   }
