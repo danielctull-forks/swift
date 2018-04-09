@@ -252,10 +252,9 @@ extension ReversedCollection: BidirectionalCollection {
 extension ReversedCollection: RandomAccessCollection where Base: RandomAccessCollection { }
 
 extension ReversedCollection {
-  // This is optimization to return original collection of doubly reversed collection
-  // For example [1,2].reversed().reversed() => [1,2]
-
-  /// Returns the elements of the original collection (reversal of reversal)
+  /// Reversing a reversed collection returns the original collection.
+  ///
+  /// - Complexity: O(1)
   @inlinable
   @available(swift, introduced: 4.2)
   public func reversed() -> Base {
