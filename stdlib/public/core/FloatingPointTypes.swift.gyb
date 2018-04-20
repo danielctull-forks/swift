@@ -37,7 +37,11 @@ SignificandBitCount = self_type.significand_bits
 ExponentBitCount = self_type.exponent_bits
 RawSignificand = 'UInt' + str(SignificandSize)
 
-if Self == 'Float':
+if Self == 'Float16':
+    SelfDocComment = '''\
+/// A half-precision, floating-point value type.'''
+
+elif Self == 'Float':
     SelfDocComment = '''\
 /// A single-precision, floating-point value type.'''
 
