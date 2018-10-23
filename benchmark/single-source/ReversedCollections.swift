@@ -26,7 +26,7 @@ public let ReversedCollections = [
 // collection types after being reversed.
 let length = 100_000
 
-var arrayInput: [Int]! = Array(repeating: 1, count: length).reversed()
+var arrayInput: [Int]! = Array(Array(repeating: 1, count: length).reversed())
 
 @inline(never)
 public func run_ReversedArray(_ N: Int) {
@@ -59,7 +59,7 @@ var dictionaryInput: [(Int, Int)]! = {
   for k in 0..<length {
     dictionary[k] = k
   }
-  return dictionary.reversed()
+  return Array(dictionary.reversed())
 }()
 
 @inline(never)

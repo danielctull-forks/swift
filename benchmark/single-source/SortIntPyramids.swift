@@ -29,7 +29,7 @@ public let SortIntPyramids = [
 
 // pyramid height
 let pH = 5000
-let pyramidTemplate: [Int] = (1...pH) + (1...pH).reversed()
+let pyramidTemplate: [Int] = (1...pH) + Array((1...pH).reversed())
 
 // let A - array sorted in ascending order,
 // A^R - reversed array A, + - array concatenation operator,
@@ -46,8 +46,8 @@ let pyramidTemplate: [Int] = (1...pH) + (1...pH).reversed()
 
 // adjacent pyramids height.
 let aPH = pH / 2
-let adjacentPyramidsTemplate: [Int] = (1...aPH) + (1...aPH).reversed()
-                                    + (1...aPH) + (1...aPH).reversed()
+let adjacentPyramidsTemplate: [Int] = (1...aPH) + Array((1...aPH).reversed())
+                                    + (1...aPH) + Array((1...aPH).reversed())
 
 @inline(never)
 public func run_SortIntPyramid(_ N: Int) {
