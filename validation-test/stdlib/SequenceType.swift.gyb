@@ -676,7 +676,7 @@ SequenceTypeTests.test("reverse/Sequence") {
     let s = MinimalSequence<OpaqueValue<Int>>(
       elements: test.sequence.map(OpaqueValue.init))
     var result = s.reversed()
-    expectType([OpaqueValue<Int>].self, &result)
+    expectType(ReversedCollection<[OpaqueValue<Int>]>.self, &result)
     expectEqual(
       test.expected, result.map { $0.value },
       stackTrace: SourceLocStack().with(test.loc))

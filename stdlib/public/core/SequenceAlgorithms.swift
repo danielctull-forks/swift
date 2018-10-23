@@ -750,16 +750,8 @@ extension Sequence {
   ///
   /// - Complexity: O(*n*), where *n* is the length of the sequence.
   @inlinable
-  public __consuming func reversed() -> [Element] {
-    // FIXME(performance): optimize to 1 pass?  But Array(self) can be
-    // optimized to a memcpy() sometimes.  Those cases are usually collections,
-    // though.
-    var result = Array(self)
-    let count = result.count
-    for i in 0..<count/2 {
-      result.swapAt(i, count - ((i + 1) as Int))
-    }
-    return result
+  public __consuming func reversed() -> ReversedCollection<[Element]> {
+    return Array(self).reversed()
   }
 }
 
