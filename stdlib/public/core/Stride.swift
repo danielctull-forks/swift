@@ -203,30 +203,32 @@ extension Strideable where Self : FloatingPoint, Self == Stride {
 }
 
 /// An iterator for a `StrideTo` instance.
-@_fixed_layout
-public struct StrideToIterator<Element : Strideable> {
-  @usableFromInline
-  internal let _start: Element
+extension StrideTo {
+  @_fixed_layout
+  public struct Iterator {
+    @usableFromInline
+    internal let _start: Element
 
-  @usableFromInline
-  internal let _end: Element
+    @usableFromInline
+    internal let _end: Element
 
-  @usableFromInline
-  internal let _stride: Element.Stride
+    @usableFromInline
+    internal let _stride: Element.Stride
 
-  @usableFromInline
-  internal var _current: (index: Int?, value: Element)
+    @usableFromInline
+    internal var _current: (index: Int?, value: Element)
 
-  @inlinable
-  internal init(_start: Element, end: Element, stride: Element.Stride) {
-    self._start = _start
-    _end = end
-    _stride = stride
-    _current = (0, _start)
+    @inlinable
+    internal init(_start: Element, end: Element, stride: Element.Stride) {
+      self._start = _start
+      _end = end
+      _stride = stride
+      _current = (0, _start)
+    }
   }
 }
 
-extension StrideToIterator: IteratorProtocol {
+extension StrideTo.Iterator: IteratorProtocol {
   /// Advances to the next element and returns it, or `nil` if no next element
   /// exists.
   ///
@@ -273,8 +275,8 @@ extension StrideTo: Sequence {
   ///
   /// - Complexity: O(1).
   @inlinable
-  public __consuming func makeIterator() -> StrideToIterator<Element> {
-    return StrideToIterator(_start: _start, end: _end, stride: _stride)
+  public __consuming func makeIterator() -> Iterator {
+    return Iterator(_start: _start, end: _end, stride: _stride)
   }
 
   // FIXME(conditional-conformances): this is O(N) instead of O(1), leaving it
@@ -411,33 +413,35 @@ public func stride<T>(
 }
 
 /// An iterator for a `StrideThrough` instance.
-@_fixed_layout
-public struct StrideThroughIterator<Element : Strideable> {
-  @usableFromInline
-  internal let _start: Element
+extension StrideThrough {
+  @_fixed_layout
+  public struct Iterator {
+    @usableFromInline
+    internal let _start: Element
 
-  @usableFromInline
-  internal let _end: Element
+    @usableFromInline
+    internal let _end: Element
 
-  @usableFromInline
-  internal let _stride: Element.Stride
+    @usableFromInline
+    internal let _stride: Element.Stride
 
-  @usableFromInline
-  internal var _current: (index: Int?, value: Element)
+    @usableFromInline
+    internal var _current: (index: Int?, value: Element)
 
-  @usableFromInline
-  internal var _didReturnEnd: Bool = false
+    @usableFromInline
+    internal var _didReturnEnd: Bool = false
 
-  @inlinable
-  internal init(_start: Element, end: Element, stride: Element.Stride) {
-    self._start = _start
-    _end = end
-    _stride = stride
-    _current = (0, _start)
+    @inlinable
+    internal init(_start: Element, end: Element, stride: Element.Stride) {
+      self._start = _start
+      _end = end
+      _stride = stride
+      _current = (0, _start)
+    }
   }
 }
 
-extension StrideThroughIterator: IteratorProtocol {
+extension StrideThrough.Iterator: IteratorProtocol {
   /// Advances to the next element and returns it, or `nil` if no next element
   /// exists.
   ///
@@ -488,8 +492,8 @@ extension StrideThrough: Sequence {
   ///
   /// - Complexity: O(1).
   @inlinable
-  public __consuming func makeIterator() -> StrideThroughIterator<Element> {
-    return StrideThroughIterator(_start: _start, end: _end, stride: _stride)
+  public __consuming func makeIterator() -> Iterator {
+    return Iterator(_start: _start, end: _end, stride: _stride)
   }
 
   // FIXME(conditional-conformances): this is O(N) instead of O(1), leaving it
@@ -654,3 +658,8 @@ public func stride<T>(
 ) -> StrideThrough<T> {
   return StrideThrough(_start: start, end: end, stride: stride)
 }
+
+public typealias StrideThroughIterator<Element: Strideable> =
+  StrideThrough<Element>.Iterator
+public typealias StrideToIterator<Element: Strideable> =
+  StrideTo<Element>.Iterator
